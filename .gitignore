@@ -1,0 +1,36 @@
+# Ignore build artifacts
+target/
+project/target/
+project/project/
+lib_managed/
+ivy2/
+null/
+
+# Ignore editor-specific files
+.idea/
+.vscode/
+*.iml
+
+# Ignore sbt and Scala-IDE specific files
+*.log
+.sbtserver
+.sbtmetadata
+.sbt/
+.cache/
+.work/
+.project
+.classpath
+.project
+.scala_dependencies
+
+# Ignore user-specific files
+.history/
+.local/
+.DS_Store
+
+# Ignore OS-specific files
+Thumbs.db
+Desktop.ini
+
+# Ignore compiled files
+*.class
