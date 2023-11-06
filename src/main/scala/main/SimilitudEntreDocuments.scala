@@ -25,49 +25,58 @@ object SimilitudEntreDocuments {
       println("    4: Canviar fitxer de stopWords")
       println("    S: Sortir de l'aplicació\n")
       val userInput = readLine("Entra la opció desitjada: ")
+      try {
+        userInput.toLowerCase() match {
+          case "s" =>
+            System.exit(0) //Sortir de l'aplicació
+          case "0" =>
+            println("\n*****************\n")
+            println("Execució: ")
+            println("Fitxer 1: " + strfile1)
+            println("Fitxer 2: " + strfile2)
+            println("Fitxer StopWords: " + strStop)
+            println("N-Gram de mida: " + ngram_size)
+            println("\n*****************\n")
 
-      userInput.toLowerCase() match {
-        case "s" =>
-          System.exit(0) //Sortir de l'aplicació
-        case "0" =>
-          println("\n*****************\n")
-          println("Execució: ")
-          println("Fitxer 1: " + strfile1)
-          println("Fitxer 2: " + strfile2)
-          println("Fitxer StopWords: " + strStop)
-          println("N-Gram de mida: " + ngram_size)
-          println("\n*****************\n")
-
-          // FREQUENCIA DE PARAULES
-          printWordOccurrence(freq(stringBook1))
-          println("\n*****************\n")
-          // FREQUENCIA DE PARAULES SENSE STOP-WORDS
-          printWordOccurrence(nonStopFreq(stringBook1, listStopWords))
-          println("\n*****************\n")
-          // DISTRIBUCIÓ DE PARAULES
-          paraulaFreqFreq(stringBook1)
-          println("\n*****************\n")
-          // N-GRAMS
-          displayNGrams(stringBook1, ngram_size)
-          println("\n*****************\n")
-          println("La similitud és de " + cosinesim(stringBook1, stringBook2, listStopWords))
-        case "1" =>
-          val ngramSize = readLine("Quina mida d'n-gram vols fer?: ")
-          ngram_size = ngramSize.toInt
-        case "2" =>
-          val strB1 = readLine("Quin vols que sigui el teu fitxer 1?: ")
-          strfile1 = "primeraPartPractica/" + strB1
-          stringBook1 = normalitza(readFileAsString("primeraPartPractica/"+strB1))
-        case "3" =>
-          val strB2 = readLine("Quin vols que sigui el teu fitxer 2?: ")
-          strfile2 = "primeraPartPractica/" + strB2
-          stringBook2 = normalitza(readFileAsString("primeraPartPractica/" + strB2))
-        case "4" =>
-          val stp = readLine("Quin és el nom del nou fitxer de stopWords?: ")
-          strStop = "primeraPartPractica/" + stp
-          listStopWords = readStopWordsFromFile("primeraPartPractica/" + stp)
-        case _ =>
-          println("Invalid option")
+            // FREQUENCIA DE PARAULES
+            printWordOccurrence(freq(stringBook1))
+            println("\n*****************\n")
+            // FREQUENCIA DE PARAULES SENSE STOP-WORDS
+            printWordOccurrence(nonStopFreq(stringBook1, listStopWords))
+            println("\n*****************\n")
+            // DISTRIBUCIÓ DE PARAULES
+            paraulaFreqFreq(stringBook1)
+            println("\n*****************\n")
+            // N-GRAMS
+            displayNGrams(stringBook1, ngram_size)
+            println("\n*****************\n")
+            println("La similitud és de " + cosinesim(stringBook1, stringBook2, listStopWords))
+          case "1" =>
+            val ngramSize = readLine("Quina mida d'n-gram vols fer?: ")
+            ngram_size = ngramSize.toInt
+            if(ngram_size < 1) {
+              println("Valor no permès. Assignada mida 1")
+                ngram_size = 1
+            }
+          case "2" =>
+            val strB1 = readLine("Quin vols que sigui el teu fitxer 1?: ")
+            strfile1 = "primeraPartPractica/" + strB1
+            stringBook1 = normalitza(readFileAsString("primeraPartPractica/" + strB1))
+          case "3" =>
+            val strB2 = readLine("Quin vols que sigui el teu fitxer 2?: ")
+            strfile2 = "primeraPartPractica/" + strB2
+            stringBook2 = normalitza(readFileAsString("primeraPartPractica/" + strB2))
+          case "4" =>
+            val stp = readLine("Quin és el nom del nou fitxer de stopWords?: ")
+            strStop = "primeraPartPractica/" + stp
+            listStopWords = readStopWordsFromFile("primeraPartPractica/" + stp)
+          case _ =>
+            println("Invalid option")
+        }
+      }
+      catch {
+        case e: Exception =>
+          println("Entrada no vàlida (nombre d'ngrams o nom de fitxer incorrectes)")
       }
       println("\n*****************\n")
     }
