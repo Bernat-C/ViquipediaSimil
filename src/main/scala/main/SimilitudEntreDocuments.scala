@@ -28,18 +28,18 @@ object SimilitudEntreDocuments {
       println("    7: Joc de proves #3")
       println("    S: Sortir de l'aplicació\n")
       val userInput = readLine("Entra la opció desitjada: ")
-
-      userInput.toLowerCase() match {
-        case "s" =>
-          System.exit(0) //Sortir de l'aplicació
-        case "0" =>
-          println("\n*****************\n")
-          println("Execució: ")
-          println("Fitxer 1: " + strfile1)
-          println("Fitxer 2: " + strfile2)
-          println("Fitxer StopWords: " + strStop)
-          println("N-Gram de mida: " + ngram_size)
-          println("\n*****************\n")
+      try {
+        userInput.toLowerCase() match {
+          case "s" =>
+            System.exit(0) //Sortir de l'aplicació
+          case "0" =>
+            println("\n*****************\n")
+            println("Execució: ")
+            println("Fitxer 1: " + strfile1)
+            println("Fitxer 2: " + strfile2)
+            println("Fitxer StopWords: " + strStop)
+            println("N-Gram de mida: " + ngram_size)
+            println("\n*****************\n")
 
           // FREQUENCIA DE PARAULES
           printWordOccurrence(freq(stringBook1))
@@ -122,6 +122,10 @@ object SimilitudEntreDocuments {
           println("La similitud és de " + cosinesim(strb1, strb2, listStopWords))
         case _ =>
           println("Invalid option")
+      }
+      catch {
+        case e: Exception =>
+          println("Entrada no vàlida (nombre d'ngrams o nom de fitxer incorrectes)")
       }
       println("\n*****************\n")
     }
