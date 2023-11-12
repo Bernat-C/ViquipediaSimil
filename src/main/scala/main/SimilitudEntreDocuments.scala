@@ -23,6 +23,9 @@ object SimilitudEntreDocuments {
       println("    2: Canviar el fitxer 1 (Fitxer amb el que es fan totes les operacions)")
       println("    3: Canviar el fitxer 2 (Fitxer amb el que trobar la similitud)")
       println("    4: Canviar fitxer de stopWords")
+      println("    5: Joc de proves #1")
+      println("    6: Joc de proves #2")
+      println("    7: Joc de proves #3")
       println("    S: Sortir de l'aplicació\n")
       val userInput = readLine("Entra la opció desitjada: ")
 
@@ -66,6 +69,57 @@ object SimilitudEntreDocuments {
           val stp = readLine("Quin és el nom del nou fitxer de stopWords?: ")
           strStop = "primeraPartPractica/" + stp
           listStopWords = readStopWordsFromFile("primeraPartPractica/" + stp)
+        case "5" =>
+          // FREQUENCIA DE PARAULES
+          val strb1 = normalitza(readFileAsString("primeraPartPractica/pg11.txt"))
+          val strb2 = normalitza(readFileAsString("primeraPartPractica/pg12.txt"))
+          val ng = 3;
+          printWordOccurrence(freq(strb1))
+          println("\n*****************\n")
+          // FREQUENCIA DE PARAULES SENSE STOP-WORDS
+          printWordOccurrence(nonStopFreq(strb1, listStopWords))
+          println("\n*****************\n")
+          // DISTRIBUCIÓ DE PARAULES
+          paraulaFreqFreq(strb1)
+          println("\n*****************\n")
+          // N-GRAMS
+          displayNGrams(strb1, ng)
+          println("\n*****************\n")
+          println("La similitud és de " + cosinesim(strb1, strb2, listStopWords))
+        case "6" =>
+          // FREQUENCIA DE PARAULES
+          val strb1 = normalitza(readFileAsString("primeraPartPractica/pg74.txt"))
+          val strb2 = normalitza(readFileAsString("primeraPartPractica/pg2500.txt"))
+          val ng = 5;
+          printWordOccurrence(freq(strb1))
+          println("\n*****************\n")
+          // FREQUENCIA DE PARAULES SENSE STOP-WORDS
+          printWordOccurrence(nonStopFreq(strb1, listStopWords))
+          println("\n*****************\n")
+          // DISTRIBUCIÓ DE PARAULES
+          paraulaFreqFreq(strb1)
+          println("\n*****************\n")
+          // N-GRAMS
+          displayNGrams(strb1, ng)
+          println("\n*****************\n")
+          println("La similitud és de " + cosinesim(strb1, strb2, listStopWords))
+        case "7" =>
+          // FREQUENCIA DE PARAULES
+          val strb1 = normalitza(readFileAsString("primeraPartPractica/pg11.txt"))
+          val strb2 = normalitza(readFileAsString("primeraPartPractica/pg11.txt"))
+          val ng = 1;
+          printWordOccurrence(freq(strb1))
+          println("\n*****************\n")
+          // FREQUENCIA DE PARAULES SENSE STOP-WORDS
+          printWordOccurrence(nonStopFreq(strb1, listStopWords))
+          println("\n*****************\n")
+          // DISTRIBUCIÓ DE PARAULES
+          paraulaFreqFreq(strb1)
+          println("\n*****************\n")
+          // N-GRAMS
+          displayNGrams(strb1, ng)
+          println("\n*****************\n")
+          println("La similitud és de " + cosinesim(strb1, strb2, listStopWords))
         case _ =>
           println("Invalid option")
       }
