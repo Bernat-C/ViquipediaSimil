@@ -458,6 +458,15 @@ object TF_IDF {
     /** Contains a map of (PageName1, PageName2) => Similarity */
     detectarPaginesSimilars(listWords.map(x => (x._1, x._2)), nmappers, nreducers).toList.filter(x => x._2 >= similaritat && !MutuallyReferenced(x._1._1, x._1._2, dictRefs)).toList.sortBy(_._2)(Ordering.Double.IeeeOrdering.reverse)
   }
+
+  /**
+   * Returns the pages more similar than similaritat that do not reference each other
+   *
+   * @param listWords   List of files that contains the pages to consider
+   * @param quantes     How many pages of lf do we want to use
+   * @param stopWords   List of stopwords to not consider when doing the similarity assessment
+   * @param similaritat Similarity Threshold to consider pages similar enough
+   */
   def detectarSimilarsNoRef(listWords: List[(String, List[String], List[String])], similaritat: Double,
                             nmappers: Int, nreducers: Int): List[((String, String), Double)] = {
 
@@ -477,8 +486,8 @@ object TF_IDF {
   def detectarPaginesSimilars(listWords: List[(String, List[String])],
                               nmappers: Int, nreducers: Int): Map[(String, String), Double] = {
 
-    val dictIDF = calculateIDFDict(listWords);
-    val dictTF = calculateTFDict(listWords);
+    val dictIDF = calculateIDFDict(listWords, nmappers, nreducers);
+    val dictTF = calculateTFDict(listWords, nmappers, nreducers);
 
     val vsms = calculateVSMS(listWords, dictIDF, dictTF);
 
@@ -517,10 +526,8 @@ object TF_IDF {
    * @param stopWords
    * @return List(word, idf)
    */
-  def calculateIDFDict(lw: List[(String, List[String])]): Map[String, Double] = {
+  def calculateIDFDict(lw: List[(String, List[String])], nmappers: Int, nreducers: Int): Map[String, Double] = {
     val nFitxers = lw.length
-    val nmappers = 1
-    val nreducers = 1
 
     val result = Main.MR(lw, MappersAndReducers.mappingIDF, MappersAndReducers.reducingIDF, nmappers, nreducers)
 
@@ -543,8 +550,8 @@ object TF_IDF {
    * @param lw List of (PageName, all words without stopwords in PageName)
    * @return
    */
-  def calculateTFDict(lw: List[(String, List[String])]): Map[(String, String), Int] = {
-    mapreduceTF(lw);
+  def calculateTFDict(lw: List[(String, List[String])], nmappers: Int, nreducers: Int): Map[(String, String), Int] = {
+    mapreduceTF(lw, nmappers, nreducers);
   }
 
   /**
@@ -552,9 +559,7 @@ object TF_IDF {
    * @param lw List of (PageName, List(Words))
    * @return Map((PageName, term), TF of term in page)
    */
-  def mapreduceTF(lw: List[(String, List[String])]): Map[(String, String), Int] = {
-    val nmappers = 1
-    val nreducers = 1
+  def mapreduceTF(lw: List[(String, List[String])], nmappers: Int, nreducers: Int): Map[(String, String), Int] = {
     // List we are going to output.
     Main.MR(lw, MappersAndReducers.mappingTF, MappersAndReducers.reducingTF, nmappers, nreducers)
   }

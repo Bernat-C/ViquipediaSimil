@@ -394,7 +394,7 @@ object SimilitudEntreDocuments {
   def normalitza(str: String): String = {
 
     val regex = "\\[\\[.*?\\]\\]".r
-    val result = regex.replaceAllIn(str, "") // Remove everything between "[[Fitxer:" and "]]"
+    val result = regex.replaceAllIn(str, "") // Remove everything between "[[" and "]]"
 
     result.map {
       /** If c is a letter or accented letter */
