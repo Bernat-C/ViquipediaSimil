@@ -479,7 +479,7 @@ object TF_IDF {
 
   /**
    * Returns a map of the similarity of every two pages.
-   * @param lf Files to compute similarity
+   * @param listWords List of pairs, filename - List(words)
    * @param stopWords List of stopwords to discard when computing similarity
    * @return
    */
